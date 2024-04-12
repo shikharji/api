@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "name": "shikharji",
+  "builds": [{ "src": "server.js", "use": "@vercel/node" }],
+  "routes": [{ "src": "/(.*)", "dest": "/server.js" }],
+  "env": {
+    "MONGO_URI": "mongodb+srv://srishikharji:a8wv1PNq9laUFlpZ@shikharji.dloaips.mongodb.net/?retryWrites=true&w=majority&appName=shikharji"
+  }
+}
