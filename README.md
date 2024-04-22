@@ -18,14 +18,14 @@ This is a web application dedicated to Shikharji, a famous Jain pilgrimage site 
 
 - **Frontend:** React.js, HTML, CSS, JavaScript
 - **Backend:** Node.js, Express.js, MongoDB
-- **Deployment:** Vercel (Frontend), Heroku (Backend)
+- **Deployment:** Vercel (Frontend and backend)
 - **External APIs:** Google Maps API, OpenWeather API
 
 ## Installation
 
 To run this application locally, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-username/your-repository.git`
+1. Clone the repository: `git clone https://github.com//shikharji/api.git`
 2. Install dependencies: `npm install`
 3. Start the development server: `npm start`
 
@@ -39,8 +39,8 @@ Contributions are welcome! If you'd like to contribute to this project, please f
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
 
 ## Contact
 
-For any questions or suggestions regarding this project, please contact us at your-email@example.com.
+For any questions or suggestions regarding this project, please contact us at astroman6569@gmail.com.
