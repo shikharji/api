@@ -9,10 +9,7 @@ const Blogs = require("./routes/Blogs");
 const Tonks = require("./routes/Tonks");
 const Jainism = require("./routes/Jainism");
 const Images = require("./routes/Images");
-<<<<<<< HEAD
 const User = require("./routes/User");
-=======
->>>>>>> d49071538d5af819fcd76783e922b3e04702fb71
 
 const app = express();
 ConnectDB();
@@ -26,10 +23,7 @@ app.use("/blogs", Blogs);
 app.use("/tonks", Tonks);
 app.use("/jainism", Jainism);
 app.use("/images", Images);
-<<<<<<< HEAD
 app.use("/user", User);
-=======
->>>>>>> d49071538d5af819fcd76783e922b3e04702fb71
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);
