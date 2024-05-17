@@ -10,6 +10,7 @@ const Tonks = require("./routes/Tonks");
 const Jainism = require("./routes/Jainism");
 const Images = require("./routes/Images");
 const User = require("./routes/User");
+const Comments = require("./routes/Comments");
 
 const app = express();
 ConnectDB();
@@ -24,6 +25,7 @@ app.use("/tonks", Tonks);
 app.use("/jainism", Jainism);
 app.use("/images", Images);
 app.use("/user", User);
+app.use("/comment", Comments);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is running on port ${process.env.PORT}`);

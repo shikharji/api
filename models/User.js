@@ -20,6 +20,9 @@ const userSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
+  autoLogin: {
+    type: String,
+  },
 });
 
 const User = mongoose.model("User", userSchema);
