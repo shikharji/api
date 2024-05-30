@@ -12,14 +12,16 @@ const {
 exports.register = async (req, res) => {
   const { name, email, password } = req.body;
 
+  console.log("Received registration request", req.body); // Log the incoming request
+
   try {
     let user = await User.findOne({ email });
     if (user) {
+      console.log("User already exists");
       return res.status(409).json({ message: "User already exists" });
     }
 
     const coolUsername = await generateCoolUsername(name);
-    // Create new user
     user = new User({
       name,
       email,
@@ -28,22 +30,24 @@ exports.register = async (req, res) => {
       isNewUser: true,
     });
 
-    const salt = await bcrypt.genSalt(1);
+    const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(password, salt);
 
     await user.save();
     await sendVerificationEmail(email, user._id);
 
-    res.status(200).json({ message: "User registered successfully" });
+    console.log("User registered successfully");
+    res.status(201).json({ message: "User registered successfully" });
   } catch (err) {
-    console.error(err.message);
-    res.status(500).send("Server Error");
+    console.error("Server error:", err.message);
+    // res.status(500).json({ message: err.message });
   }
 };
 
 exports.verifyEmail = async (req, res) => {
   const { token } = req.params;
   const jwtSecret = process.env.jwt_secret_key;
+
   try {
     const decoded = jwt.verify(token, jwtSecret);
 
