@@ -12,36 +12,31 @@ const {
 exports.register = async (req, res) => {
   const { name, email, password } = req.body;
 
-  console.log("Received registration request", req.body); // Log the incoming request
+  console.log("Received registration request", req.body);
 
-  try {
-    let user = await User.findOne({ email });
-    if (user) {
-      console.log("User already exists");
-      return res.status(409).json({ message: "User already exists" });
-    }
-
-    const coolUsername = await generateCoolUsername(name);
-    user = new User({
-      name,
-      email,
-      password,
-      username: coolUsername,
-      isNewUser: true,
-    });
-
-    const salt = await bcrypt.genSalt(10);
-    user.password = await bcrypt.hash(password, salt);
-
-    await user.save();
-    await sendVerificationEmail(email, user._id);
-
-    console.log("User registered successfully");
-    res.status(201).json({ message: "User registered successfully" });
-  } catch (err) {
-    console.error("Server error:", err.message);
-    res.status(500).json({ message: err.message });
+  let user = await User.findOne({ email });
+  if (user) {
+    console.log("User already exists");
+    return res.status(409).json({ message: "User already exists" });
   }
+
+  const coolUsername = await generateCoolUsername(name);
+  user = new User({
+    name,
+    email,
+    password,
+    username: coolUsername,
+    isNewUser: true,
+  });
+
+  const salt = await bcrypt.genSalt(10);
+  user.password = await bcrypt.hash(password, salt);
+
+  await user.save();
+  await sendVerificationEmail(email, user._id);
+
+  console.log("User registered successfully");
+  res.status(201).json({ message: "User registered successfully" });
 };
 
 exports.verifyEmail = async (req, res) => {
