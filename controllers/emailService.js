@@ -52,8 +52,10 @@ async function sendWelcomeBackEmail(email, userName) {
 
 const sendVerificationEmail = async (email, _id) => {
   const jwtSecret = process.env.jwt_secret_key;
-  // const jwtSecret =
-  //   "9f0d2e7f1a2c4f3d8b5e6f7a8c9d0b1a2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f";
+  if (!jwtSecret) {
+    console.error("JWT secret key is not set");
+    throw new Error("JWT secret key is not set");
+  }
   const token = jwt.sign({ _id }, jwtSecret, { expiresIn: "15m" });
   const url = `https://srishikharji.vercel.app/verify-email/${token}`;
   const mailOptions = {

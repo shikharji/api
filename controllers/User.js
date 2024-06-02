@@ -47,7 +47,10 @@ exports.register = async (req, res) => {
 exports.verifyEmail = async (req, res) => {
   const { token } = req.params;
   const jwtSecret = process.env.jwt_secret_key;
-
+  if (!jwtSecret) {
+    console.error("JWT secret key is not set");
+    return res.status(500).send({ message: "Server configuration error" });
+  }
   try {
     const decoded = jwt.verify(token, jwtSecret);
 
