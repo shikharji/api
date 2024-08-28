@@ -12,31 +12,42 @@ const {
 exports.register = async (req, res) => {
   const { name, email, password } = req.body;
 
-  console.log("Received registration request", req.body);
+  try {
+    const existingUser = await User.findOne({ email });
 
-  let user = await User.findOne({ email });
-  if (user) {
-    console.log("User already exists");
-    return res.status(409).json({ message: "User already exists" });
+    if (existingUser) {
+      return res
+        .status(409)
+        .json({ message: "Email already exists", error: true });
+    }
+
+    const coolUsername = await generateCoolUsername(name);
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+
+    const user = new User({
+      name,
+      email,
+      password: hashedPassword,
+      username: coolUsername,
+      isNewUser: true,
+    });
+
+    await user.save();
+    await sendVerificationEmail(email, user._id);
+
+    res
+      .status(201)
+      .json({ message: "User registered successfully", error: false });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({
+        message: "Internal server error. Please try again later.",
+        error: true,
+      });
   }
-
-  const coolUsername = await generateCoolUsername(name);
-  user = new User({
-    name,
-    email,
-    password,
-    username: coolUsername,
-    isNewUser: true,
-  });
-
-  const salt = await bcrypt.genSalt(10);
-  user.password = await bcrypt.hash(password, salt);
-
-  await user.save();
-  await sendVerificationEmail(email, user._id);
-
-  console.log("User registered successfully");
-  res.status(201).json({ message: "User registered successfully" });
 };
 
 exports.verifyEmail = async (req, res) => {
